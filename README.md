@@ -6,6 +6,8 @@ The idea is that it replaces `sources.nix` to simply delegate to the online vers
 
 It also makes updates straightforward - you update by changing the git sha, rather than niv trying to guess when it's out of date by checking the file's checksum.
 
+**Note:** You always need to specify `sorcesFile`, as that can't be defaulted now that the imported `sources.nix` is not next to `sources.json`.
+
 # Features
 
  - traces the import of each source, along with its type. This can help track down when a source is coming from a surprising location (due to env vars) or when the same source is coming from two different locations in a transitive build.

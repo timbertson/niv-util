@@ -32,7 +32,7 @@ let
             fi
             mkdir -p nix
             dest="nix/sources.nix"
-            echo "import \"https://raw.githubusercontent.com/timbertson/niv-util/$rev/default.nix\"" > "$dest"
+            echo "import (builtins.fetchurl \"https://raw.githubusercontent.com/timbertson/niv-util/$rev/default.nix\")" > "$dest"
             echo "Wrote $dest"
           ;;
 
