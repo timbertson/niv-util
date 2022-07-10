@@ -25,9 +25,9 @@ let
         set -eu
         case "''${1:-}" in
           init)
-            sha="$(git ls-remote https://github.com/timbertson/niv-util.git HEAD | cut -f 1)"
-            if [ -z "$sha" ]; then
-              echo "Error: can't find HEAD sha"
+            rev="$(git ls-remote https://github.com/timbertson/niv-util.git HEAD | cut -f 1)"
+            if [ -z "$rev" ]; then
+              echo "Error: can't find HEAD revision"
               exit 1
             fi
             mkdir -p nix
