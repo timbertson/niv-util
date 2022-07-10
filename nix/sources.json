@@ -1,0 +1,14 @@
+{
+    "niv-util": {
+        "branch": "main",
+        "description": "Alternate `sources.nix` loader for niv",
+        "homepage": null,
+        "owner": "timbertson",
+        "repo": "niv-util",
+        "rev": "acffaa5d6a7926e3f6370be683938757ee6d161a",
+        "sha256": "0yz6h31l3vbpj5zpi2fddlhdlhp8jsjakm9av9373iyqpnm4r8k0",
+        "type": "tarball",
+        "url": "https://github.com/timbertson/niv-util/archive/acffaa5d6a7926e3f6370be683938757ee6d161a.tar.gz",
+        "url_template": "https://github.com/<owner>/<repo>/archive/<rev>.tar.gz"
+    }
+}
