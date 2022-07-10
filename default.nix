@@ -7,7 +7,7 @@ let
   upstream = import (fetchurl url) opts;
   loggedSources = lib.mapAttrs (n: v: lib.trace "[niv]: providing ${n} from ${v.type}" v.outPath) upstream;
 
-  local = args: if builtins.isStorePath arg.url then arg.url else builtins.fetchGit args;
+  local = args: if lib.isStorePath args.url then args.url else builtins.fetchGit args;
 
   result = loggedSources // {
     inherit local;
