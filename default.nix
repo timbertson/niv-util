@@ -19,8 +19,12 @@ let
       pname = "niv-util";
       version = "dev";
       NIX_SOURCES_TEMPLATE = ''
-        { pkgs ? import <nixpkgs> {}, sourcesFile ? ./sources.json, ...}@opts:
-        import (builtins.fetchurl "https://raw.githubusercontent.com/timbertson/niv-util/__REVISION__/default.nix") opts
+        { pkgs ? import <nixpkgs> {}, ... }@opts:
+        let
+          defaults = { sourcesFile = ./sources.json; };
+          url = builtins.fetchurl "https://raw.githubusercontent.com/timbertson/niv-util/__REVISION__/default.nix";
+        in
+        import url (defaults // opts)
       '';
 
       SCRIPT = ''

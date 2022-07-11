@@ -1,6 +1,6 @@
 { pkgs ? import <nixpkgs> {}}:
 let
-  sources = import ./nix/sources.nix { sourcesFile = ./nix/sources.json; };
+  sources = import ./nix/sources.nix { };
   sourcesWithOverride = (import ./nix/sources.nix { sourcesFile = ./nix/sources.json; })
     .mergeOptionals [ ./test/local.nix ./test/missing.nix ];
 in
