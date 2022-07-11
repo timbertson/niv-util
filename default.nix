@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {}, ...}@opts:
+{ pkgs ? import <nixpkgs> {}, ... }@opts:
 with builtins;
 let
   lib = pkgs.lib;
@@ -12,15 +12,18 @@ let
   result = loggedSources // {
     inherit local;
     sources = loggedSources;
+    mergeOptionals = paths:
+      lib.foldl (acc: p: acc // pkgs.callPackage p {}) result (lib.filter builtins.pathExists paths);
+
     cli = pkgs.stdenv.mkDerivation {
       pname = "niv-util";
       version = "dev";
-      buildCommand = let
-        setupNixContents = rev: "";
-      in
-      ''
-        mkdir -p $out/bin
-        cat << "EOF" > $out/bin/niv-util
+      NIX_SOURCES_TEMPLATE = ''
+        { pkgs ? import <nixpkgs> {}, sourcesFile ? ./sources.json, ...}@opts:
+        import (builtins.fetchurl "https://raw.githubusercontent.com/timbertson/niv-util/__REVISION__/default.nix") opts
+      '';
+
+      SCRIPT = ''
         #!/usr/bin/env bash
         set -eu
         case "''${1:-}" in
@@ -32,7 +35,7 @@ let
             fi
             mkdir -p nix
             dest="nix/sources.nix"
-            echo "import (builtins.fetchurl \"https://raw.githubusercontent.com/timbertson/niv-util/$rev/default.nix\")" > "$dest"
+            sed -e "s/__REVISION__/$rev/g" "__SOURCES_FILE__" > "$dest"
             echo "Wrote $dest"
           ;;
 
@@ -40,9 +43,16 @@ let
             echo 'ERROR: unknown command. Try `init`'
           ;;
         esac
-        EOF
+      '';
 
-        chmod +x $out/bin/niv-util'';
+      buildCommand = ''
+        mkdir -p $out/bin
+        mkdir -p $out/share
+        SOURCES_FILE="$out/share/sources.nix"
+        echo "$NIX_SOURCES_TEMPLATE" > "$SOURCES_FILE"
+        echo "$SCRIPT" | sed -e "s|__SOURCES_FILE__|$SOURCES_FILE|g" > $out/bin/niv-util
+        chmod +x $out/bin/niv-util
+      '';
     };
   };
 in
