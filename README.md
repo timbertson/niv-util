@@ -23,6 +23,12 @@ Takes the same arguments as `builtins.fechGit`, but returns the bare `url` if it
 
 The plain sources returned by niv directly
 
+### `mergeOptionals`
+
+Takes a list of paths. Returns the original result merged with the results of importing each file that exists (imported with `pkgs.callPackage`).
+
+This is useful for having local overrides which aren't committed, containing overridden local sources.
+
 ### `cli`:
 
 A simple derivation providing `niv-util` script. `niv-util init` will (over)write `nix/sources.nix` with a trivial wrapper that imports the latest commit from this repository.
