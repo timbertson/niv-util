@@ -2,7 +2,7 @@
 with builtins;
 let
   lib = pkgs.lib;
-  nivCommit = "dd678782cae74508d6b4824580d2b0935308011e";
+  nivCommit = "67b245a3566f212e9109f4575bbe539008fc4ba1";
   url = "https://raw.githubusercontent.com/nmattia/niv/${nivCommit}/nix/sources.nix";
   upstream = import (fetchurl url) opts;
   loggedSources = lib.mapAttrs (n: v: lib.trace "[niv]: providing ${n} from ${v.type}" v.outPath) upstream;
